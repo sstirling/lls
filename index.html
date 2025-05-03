@@ -92,6 +92,18 @@
   <script>
     const sheetID = '14-EDcgY2vjO37V_cuVebjrlRlSX-6nIK229vcMJZitw';
 
+    const formatDate = (val) => {
+      const match = /Date\((\d+),(\d+),(\d+)\)/.exec(val);
+      if (match) {
+        const year = parseInt(match[1]);
+        const month = parseInt(match[2]);
+        const day = parseInt(match[3]);
+        const date = new Date(year, month, day);
+        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+      return val;
+    }
+
     const loadSheet = (tabName, elementID) => {
       const query = encodeURIComponent('SELECT *');
       const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${tabName}&tq=${query}`;
@@ -113,7 +125,9 @@
             const tr = document.createElement('tr');
             row.c.forEach(cell => {
               const td = document.createElement('td');
-              if (cell && typeof cell.v === 'object' && cell.v instanceof Date === false && cell.f) {
+              if (cell && typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
+                td.innerText = formatDate(cell.v);
+              } else if (cell && typeof cell.v === 'object' && cell.v instanceof Date === false && cell.f) {
                 td.innerText = cell.f;
               } else {
                 td.innerText = cell ? cell.v : '';
