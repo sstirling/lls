@@ -72,10 +72,10 @@
   <div class="container">
     <div class="player-card">
       <img class="team-logo" src="https://cdn1.sportngin.com/attachments/logo_graphic/a947-207764455/Morristown-logo_large.png" alt="Team Logo">
-      <div class="headshot" style="background-image: url('');"></div>
+      <div class="headshot" style="background-image: url('https://portfolio-2025.s3.us-east-2.amazonaws.com/img/lls-card.jpg');"></div>
       <div class="info">
-        <h2>Player Name</h2>
-        <p>Position | Age | Morristown Junior Colonials</p>
+        <h2>Lucas Lyon-Stirling</h2>
+        <p>LW, C | Age: 9 | Morristown Junior Colonials</p>
       </div>
     </div>
 
@@ -91,18 +91,6 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
     const sheetID = '14-EDcgY2vjO37V_cuVebjrlRlSX-6nIK229vcMJZitw';
-
-    const formatDate = (val) => {
-      const match = /Date\((\d+),(\d+),(\d+)\)/.exec(val);
-      if (match) {
-        const year = parseInt(match[1]);
-        const month = parseInt(match[2]);
-        const day = parseInt(match[3]);
-        const date = new Date(year, month, day);
-        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-      }
-      return val;
-    }
 
     const loadSheet = (tabName, elementID) => {
       const query = encodeURIComponent('SELECT *');
@@ -125,13 +113,7 @@
             const tr = document.createElement('tr');
             row.c.forEach(cell => {
               const td = document.createElement('td');
-              if (cell && typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
-                td.innerText = formatDate(cell.v);
-              } else if (cell && typeof cell.v === 'object' && cell.v instanceof Date === false && cell.f) {
-                td.innerText = cell.f;
-              } else {
-                td.innerText = cell ? cell.v : '';
-              }
+              td.innerText = cell ? cell.v : '';
               tr.appendChild(td);
             });
             table.appendChild(tr);
