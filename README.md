@@ -1,6 +1,8 @@
-# Youth hockey stats dashboard
+# Youth sports stats dashboard
 
 A single-page site that pulls a player's stats from a Google Sheet and displays them in a broadcast-style layout with career highlight tiles, career stats and a game log. It works on phones, tablets and desktops. Free to host on GitHub Pages.
+
+The template is set up for hockey but works for any sport. The tables display whatever columns are in your Google Sheet — change the headers and the page adapts. The only hockey-specific piece is the stat highlight tiles, which look for columns named **GP**, **G**, **A** and **Pts**. To use this for another sport, update those four column lookups and tile labels in the JavaScript (see [Adapting for other sports](#adapting-for-other-sports) below).
 
 **Demo:** [Lucas Lyon-Stirling](https://sstirling.github.io/lls/)
 
@@ -22,8 +24,8 @@ No coding experience is required. You'll copy a template, change a few lines of 
 The site pulls from a Google Sheet with two tabs: **Game Log** and **Career Stats**. The tab names must match exactly.
 
 1. Open [this template spreadsheet](https://docs.google.com/spreadsheets/d/1u-AnmAe-NW9YBbZC_631x7AAaMOitwTpvWGe8FB3XaA/copy) and click "Make a copy."
-2. Fill in the **Game Log** tab with one row per game. Columns can include date, opponent, goals, assists, points or whatever stats you track.
-3. Fill in the **Career Stats** tab with one row per season. The column headers must include **GP** (games played), **G** (goals), **A** (assists) and **Pts** (points). These four columns power the highlight tiles at the top of the page. You can add other columns (like PIM) and they'll show in the table.
+2. Fill in the **Game Log** tab with one row per game. Use whatever columns make sense for your sport (date, opponent, goals, assists, points, etc.).
+3. Fill in the **Career Stats** tab with one row per season. Use whatever stat columns your sport needs — all columns will appear in the table. For the highlight tiles at the top of the page, the default template looks for **GP**, **G**, **A** and **Pts**. If your sport uses different stats, see [Adapting for other sports](#adapting-for-other-sports).
 4. Share the spreadsheet: click **Share**, then set access to **Anyone with the link** as **Viewer**.
 5. Copy the spreadsheet ID from the URL. It's the long string between `/d/` and `/edit`:
 
@@ -130,6 +132,52 @@ When a new season starts:
 - **Colors:** Change the color variables at the top of the `<style>` section. `--color-primary` controls the header and accent tile; `--color-accent` controls the blue highlights.
 - **Additional stats tabs:** Add a new tab to the Google Sheet (e.g., "Tournament Stats"), add a new section in the HTML and add another `loadSheet()` call in the JavaScript.
 - **Custom domain:** GitHub Pages supports custom domains. See [GitHub's guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
+
+---
+
+## Adapting for other sports
+
+The tables work for any sport with no code changes — they display whatever columns are in your Google Sheet. The only part that needs updating is the five stat highlight tiles at the top.
+
+In the `<script>` section of `index.html`, find the `computeCareerTotals` function. Update the column lookups to match your sheet's headers:
+
+**Hockey (default):**
+```js
+const gIdx = findCol('GP', 'Games');
+const goIdx = findCol('G', 'Goals');
+const aIdx = findCol('A', 'Assists');
+const pIdx = findCol('Pts', 'Points');
+```
+
+**Basketball example:**
+```js
+const gIdx = findCol('GP', 'Games');
+const goIdx = findCol('PTS', 'Points');
+const aIdx = findCol('REB', 'Rebounds');
+const pIdx = findCol('AST', 'Assists');
+```
+
+**Soccer example:**
+```js
+const gIdx = findCol('GP', 'Games');
+const goIdx = findCol('G', 'Goals');
+const aIdx = findCol('A', 'Assists');
+const pIdx = findCol('SOG', 'Shots on Goal');
+```
+
+Then update the tile labels in the `buildStatTiles` function to match:
+
+```js
+const tiles = [
+  { label: 'Games', value: totals.games },
+  { label: 'Points', value: totals.goals },    // change label to match your sport
+  { label: 'Rebounds', value: totals.assists },  // change label to match your sport
+  { label: 'Assists', value: totals.points, accent: true },  // change label
+  { label: 'Per Game', value: totals.ppg },
+];
+```
+
+The fifth tile always calculates the fourth stat divided by games played. Change its label to match (e.g., "Pts/Game," "Goals/Game").
 
 ---
 
