@@ -21,7 +21,7 @@ No coding experience is required. You'll copy a template, change a few lines of 
 
 The site pulls from a Google Sheet with two tabs: **Game Log** and **Career Stats**. The tab names must match exactly.
 
-1. Open [this template spreadsheet](https://docs.google.com/spreadsheets/d/1lMEexk9CWTM6A0C_XCyoN_QbKkV2rYhzcr31wA7G62c/copy) and click "Make a copy."
+1. Open [this template spreadsheet](https://docs.google.com/spreadsheets/d/1u-AnmAe-NW9YBbZC_631x7AAaMOitwTpvWGe8FB3XaA/copy) and click "Make a copy."
 2. Fill in the **Game Log** tab with one row per game. Columns can include date, opponent, goals, assists, points or whatever stats you track.
 3. Fill in the **Career Stats** tab with one row per season. The column headers must include **GP** (games played), **G** (goals), **A** (assists) and **Pts** (points). These four columns power the highlight tiles at the top of the page. You can add other columns (like PIM) and they'll show in the table.
 4. Share the spreadsheet: click **Share**, then set access to **Anyone with the link** as **Viewer**.
