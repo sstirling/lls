@@ -96,6 +96,17 @@ Update the `<title>` tag in the `<head>`:
 <title>Your Player Name - Player Stats</title>
 ```
 
+### Social card image (optional)
+
+When someone shares the link on iMessage, Slack, Facebook or X, a preview image and description will appear. To customize this, place a photo in the same folder and update the `og:image` and `twitter:image` meta tags in the `<head>`. Use the full URL where your site will be hosted:
+
+```html
+<meta property="og:image" content="https://yourusername.github.io/player-stats/your-photo.jpg">
+<meta name="twitter:image" content="https://yourusername.github.io/player-stats/your-photo.jpg">
+```
+
+You can also update the `og:title`, `og:description`, `twitter:title` and `twitter:description` tags with your player's name and team. If you don't want a social card, delete the `<!-- Social card -->` block entirely.
+
 ---
 
 ## Step 3: Publish to GitHub Pages
