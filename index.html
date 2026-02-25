@@ -63,6 +63,8 @@
 
     .team-logo {
       max-height: 48px;
+      width: auto;
+      object-fit: contain;
       display: block;
     }
 
@@ -281,7 +283,7 @@
     <div class="hero-inner">
       <div class="headshot" style="background-image: url('https://portfolio-2025.s3.us-east-2.amazonaws.com/img/lls-card.jpg');"></div>
       <div class="hero-info">
-        <img class="team-logo" src="https://cdn1.sportngin.com/attachments/logo_graphic/a947-207764455/Morristown-logo_large.png" alt="Morristown Junior Colonials">
+        <img class="team-logo" src="mjs-logo.png" alt="Morristown Junior Colonials">
         <h1 class="player-name">Lucas Lyon-Stirling</h1>
         <p class="player-meta">LW, C &middot; Age 10 &middot; Morristown Junior Colonials</p>
       </div>
@@ -375,14 +377,14 @@
       const rows = jsonData.table.rows;
       const totals = { games: 0, goals: 0, assists: 0, points: 0 };
 
-      // Find column indices by label (case-insensitive partial match)
-      const findCol = (keyword) =>
-        cols.findIndex(c => c.label.toLowerCase().includes(keyword.toLowerCase()));
+      // Find column indices by exact label match (case-insensitive)
+      const findCol = (...keywords) =>
+        cols.findIndex(c => keywords.some(k => c.label.toLowerCase() === k.toLowerCase()));
 
-      const gIdx = findCol('gp') !== -1 ? findCol('gp') : findCol('game');
-      const goIdx = findCol('goal') !== -1 ? findCol('goal') : findCol('g');
-      const aIdx = findCol('assist') !== -1 ? findCol('assist') : findCol('a');
-      const pIdx = findCol('point') !== -1 ? findCol('point') : findCol('pts');
+      const gIdx = findCol('GP', 'Games');
+      const goIdx = findCol('G', 'Goals');
+      const aIdx = findCol('A', 'Assists');
+      const pIdx = findCol('Pts', 'Points');
 
       rows.forEach(row => {
         const val = (idx) => {
