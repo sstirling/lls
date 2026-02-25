@@ -3,452 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lucas Lyon-Stirling - Player Stats</title>
+  <title>Morristown Junior Colonials - Player Stats</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --color-primary: #1a2332;
-      --color-primary-dark: #111927;
-      --color-accent: #3b82c4;
-      --color-bg: #f0f2f5;
-      --color-surface: #ffffff;
-      --color-text: #222;
-      --color-text-muted: #6b7280;
-      --color-border: #e5e7eb;
-      --color-row-stripe: #f8f9fb;
-    }
-
-    * { box-sizing: border-box; }
-
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background: var(--color-bg);
-      color: var(--color-text);
+      background: #f9f9f9;
+      color: #222;
     }
-
-    /* ── Hero header ── */
-    .hero {
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-      color: #fff;
-      padding: 48px 20px 80px;
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
     }
-
-    .hero-inner {
-      max-width: 900px;
-      margin: 0 auto;
+    .player-card {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 28px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 30px;
     }
-
+    .team-logo {
+      max-height: 60px;
+      margin-bottom: 10px;
+    }
     .headshot {
-      width: 140px;
-      height: 140px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      background-color: #334155;
+      background-color: #ddd;
       background-size: cover;
       background-position: center;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 4px var(--color-accent), 0 0 0 8px rgba(59,130,196,0.25);
+      margin-bottom: 10px;
     }
-
-    .hero-info {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .team-logo {
-      max-height: 48px;
-      display: block;
-    }
-
-    .player-name {
-      font-size: 32px;
-      font-weight: 700;
-      margin: 0;
-      line-height: 1.15;
-    }
-
-    .player-meta {
-      font-size: 14px;
-      color: rgba(255,255,255,0.7);
-      margin: 0;
-    }
-
-    /* ── Container ── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 20px 40px;
-    }
-
-    /* ── Stat tiles ── */
-    .stat-tiles {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-top: -52px;
-      margin-bottom: 36px;
-    }
-
-    .stat-tile {
-      background: var(--color-surface);
-      border-radius: 10px;
-      padding: 18px 12px;
+    .info {
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-
-    .stat-tile.accent {
-      background: var(--color-primary);
-      color: #fff;
+    h2 {
+      margin: 5px 0;
     }
-
-    .stat-tile .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .stat-tile .stat-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--color-text-muted);
-      margin-top: 4px;
-    }
-
-    .stat-tile.accent .stat-label {
-      color: rgba(255,255,255,0.65);
-    }
-
-    .stat-tiles.loading .stat-tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 88px;
-    }
-
-    /* ── Spinner ── */
-    .spinner {
-      width: 22px;
-      height: 22px;
-      border: 3px solid var(--color-border);
-      border-top-color: var(--color-accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    .stat-tile.accent .spinner {
-      border-color: rgba(255,255,255,0.25);
-      border-top-color: #fff;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      margin-top: 6px;
-    }
-
-    .stat-tile.accent .loading-text {
-      color: rgba(255,255,255,0.5);
-    }
-
-    /* ── Section titles ── */
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 36px 0 14px;
-      padding-left: 14px;
-      border-left: 4px solid var(--color-accent);
-      line-height: 1.3;
-    }
-
-    /* ── Tables ── */
-    .table-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--color-surface);
-      font-variant-numeric: tabular-nums;
+      margin-top: 10px;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
     th {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--color-text-muted);
-      padding: 10px 12px;
-      text-align: center;
-      border-bottom: 2px solid var(--color-border);
-      white-space: nowrap;
+      background-color: #efefef;
     }
-
-    td {
-      padding: 9px 12px;
-      text-align: center;
-      font-size: 13px;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    th:first-child, td:first-child {
-      text-align: left;
-      font-weight: 600;
-    }
-
-    tbody tr:nth-child(even) {
-      background: var(--color-row-stripe);
-    }
-
-    tbody tr:hover {
-      background: #edf2f7;
-    }
-
-    .table-placeholder {
-      text-align: center;
-      padding: 32px 0;
-      color: var(--color-text-muted);
-      font-size: 13px;
-    }
-
-    /* ── Error state ── */
-    .error-msg {
-      text-align: center;
-      padding: 24px;
-      color: #b91c1c;
-      font-size: 13px;
-    }
-
-    /* ── Footer ── */
-    footer {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 20px 32px;
-      border-top: 1px solid var(--color-border);
-      font-size: 12px;
-      color: var(--color-text-muted);
-      text-align: center;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 639px) {
-      .hero { padding: 32px 20px 72px; }
-
-      .hero-inner {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .headshot {
-        width: 110px;
-        height: 110px;
-      }
-
-      .team-logo { margin: 0 auto; }
-
-      .player-name { font-size: 26px; }
-
-      .stat-tiles {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stat-tiles .stat-tile:last-child {
-        grid-column: 1 / -1;
-      }
+    h3 {
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-inner">
+  <div class="container">
+    <div class="player-card">
+      <img class="team-logo" src="https://cdn1.sportngin.com/attachments/logo_graphic/a947-207764455/Morristown-logo_large.png" alt="Team Logo">
       <div class="headshot" style="background-image: url('https://portfolio-2025.s3.us-east-2.amazonaws.com/img/lls-card.jpg');"></div>
-      <div class="hero-info">
-        <img class="team-logo" src="https://cdn1.sportngin.com/attachments/logo_graphic/a947-207764455/Morristown-logo_large.png" alt="Morristown Junior Colonials">
-        <h1 class="player-name">Lucas Lyon-Stirling</h1>
-        <p class="player-meta">LW, C &middot; Age 9 &middot; Morristown Junior Colonials</p>
+      <div class="info">
+        <h2>Lucas Lyon-Stirling</h2>
+        <p>LW, C | Age: 10 | Morristown Junior Colonials</p>
       </div>
     </div>
-  </header>
 
-  <!-- Stat tiles -->
-  <div class="container">
-    <div id="stat-tiles" class="stat-tiles loading">
-      <div class="stat-tile"><div class="spinner"></div><div class="loading-text">Loading stats&hellip;</div></div>
-      <div class="stat-tile"><div class="spinner"></div><div class="loading-text">Loading stats&hellip;</div></div>
-      <div class="stat-tile"><div class="spinner"></div><div class="loading-text">Loading stats&hellip;</div></div>
-      <div class="stat-tile accent"><div class="spinner"></div><div class="loading-text">Loading stats&hellip;</div></div>
-      <div class="stat-tile"><div class="spinner"></div><div class="loading-text">Loading stats&hellip;</div></div>
-    </div>
+    <div>
+      <h3>Fall 2025 Game Log</h3>
+      <div id="game-log"></div>
 
-    <!-- Game Log -->
-    <h2 class="section-title">Fall 2025 Game Log</h2>
-    <div id="game-log" class="table-wrap">
-      <p class="table-placeholder">Loading&hellip;</p>
-    </div>
-
-    <!-- Career Stats -->
-    <h2 class="section-title">Career Stats</h2>
-    <div id="career-stats" class="table-wrap">
-      <p class="table-placeholder">Loading&hellip;</p>
+      <h3>Career Stats</h3>
+      <div id="career-stats"></div>
     </div>
   </div>
 
-  <footer>
-    Source: Morristown Junior Colonials game sheets
-  </footer>
-
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
-    const SHEET_ID = '14-EDcgY2vjO37V_cuVebjrlRlSX-6nIK229vcMJZitw';
+    const sheetID = '14-EDcgY2vjO37V_cuVebjrlRlSX-6nIK229vcMJZitw';
 
-    async function loadSheet(tabName) {
+    const loadSheet = (tabName, elementID) => {
       const query = encodeURIComponent('SELECT *');
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${tabName}&tq=${query}`;
-      const res = await fetch(url);
-      const text = await res.text();
-      return JSON.parse(text.substr(47).slice(0, -2));
-    }
+      const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${tabName}&tq=${query}`;
+      fetch(url)
+        .then(res => res.text())
+        .then(rep => {
+          const jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+          const table = document.createElement('table');
+          const headerRow = document.createElement('tr');
+          const headers = jsonData.table.cols.map(col => col.label);
+          headers.forEach(h => {
+            const th = document.createElement('th');
+            th.innerText = h;
+            headerRow.appendChild(th);
+          });
+          table.appendChild(headerRow);
 
-    function formatCellValue(cell) {
-      if (!cell) return '';
-      if (cell.f) return cell.f;
-      if (cell.v != null && typeof cell.v === 'object' && 'year' in cell.v) {
-        // gviz Date object
-        const d = cell.v;
-        return `${d.month + 1}/${d.date}/${d.year}`;
-      }
-      return cell.v != null ? String(cell.v) : '';
-    }
+          jsonData.table.rows.forEach(row => {
+            const tr = document.createElement('tr');
+            row.c.forEach(cell => {
+              const td = document.createElement('td');
+              td.innerText = cell ? cell.v : '';
+              tr.appendChild(td);
+            });
+            table.appendChild(tr);
+          });
 
-    function buildTable(jsonData, elementID) {
-      const container = document.getElementById(elementID);
-      container.innerHTML = '';
-
-      const headers = jsonData.table.cols.map(col => col.label).filter(Boolean);
-      if (!headers.length) return;
-
-      const table = document.createElement('table');
-      const thead = document.createElement('thead');
-      const headerRow = document.createElement('tr');
-      headers.forEach(h => {
-        const th = document.createElement('th');
-        th.textContent = h;
-        headerRow.appendChild(th);
-      });
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
-
-      const tbody = document.createElement('tbody');
-      jsonData.table.rows.forEach(row => {
-        const tr = document.createElement('tr');
-        const cells = row.c.slice(0, headers.length);
-        cells.forEach(cell => {
-          const td = document.createElement('td');
-          td.textContent = formatCellValue(cell);
-          tr.appendChild(td);
+          document.getElementById(elementID).appendChild(table);
         });
-        tbody.appendChild(tr);
-      });
-      table.appendChild(tbody);
-      container.appendChild(table);
     }
 
-    function computeCareerTotals(jsonData) {
-      const cols = jsonData.table.cols;
-      const rows = jsonData.table.rows;
-      const totals = { games: 0, goals: 0, assists: 0, points: 0 };
-
-      // Find column indices by label (case-insensitive partial match)
-      const findCol = (keyword) =>
-        cols.findIndex(c => c.label.toLowerCase().includes(keyword.toLowerCase()));
-
-      const gIdx = findCol('gp') !== -1 ? findCol('gp') : findCol('game');
-      const goIdx = findCol('goal') !== -1 ? findCol('goal') : findCol('g');
-      const aIdx = findCol('assist') !== -1 ? findCol('assist') : findCol('a');
-      const pIdx = findCol('point') !== -1 ? findCol('point') : findCol('pts');
-
-      rows.forEach(row => {
-        const val = (idx) => {
-          if (idx < 0 || !row.c[idx]) return 0;
-          const v = row.c[idx].v;
-          return typeof v === 'number' ? v : parseFloat(v) || 0;
-        };
-        totals.games += val(gIdx);
-        totals.goals += val(goIdx);
-        totals.assists += val(aIdx);
-        totals.points += val(pIdx);
-      });
-
-      totals.ppg = totals.games > 0
-        ? (totals.points / totals.games).toFixed(2)
-        : '0.00';
-
-      return totals;
-    }
-
-    function buildStatTiles(totals) {
-      const el = document.getElementById('stat-tiles');
-      const tiles = [
-        { label: 'Games', value: totals.games },
-        { label: 'Goals', value: totals.goals },
-        { label: 'Assists', value: totals.assists },
-        { label: 'Points', value: totals.points, accent: true },
-        { label: 'Pts/Game', value: totals.ppg },
-      ];
-
-      el.classList.remove('loading');
-      el.innerHTML = tiles.map(t =>
-        `<div class="stat-tile${t.accent ? ' accent' : ''}">
-          <div class="stat-value">${t.value}</div>
-          <div class="stat-label">${t.label}</div>
-        </div>`
-      ).join('');
-    }
-
-    function showError(elementID, msg) {
-      const el = document.getElementById(elementID);
-      el.innerHTML = `<p class="error-msg">${msg}</p>`;
-    }
-
-    async function init() {
-      try {
-        const [gameLogData, careerData] = await Promise.all([
-          loadSheet('Game Log'),
-          loadSheet('Career Stats'),
-        ]);
-
-        buildTable(gameLogData, 'game-log');
-        buildTable(careerData, 'career-stats');
-
-        const totals = computeCareerTotals(careerData);
-        buildStatTiles(totals);
-      } catch (err) {
-        console.error('Failed to load stats:', err);
-        showError('game-log', 'Failed to load game log. Please try again later.');
-        showError('career-stats', 'Failed to load career stats. Please try again later.');
-        document.getElementById('stat-tiles').innerHTML =
-          '<p class="error-msg" style="grid-column:1/-1">Failed to load stats.</p>';
-      }
-    }
-
-    init();
+    loadSheet('Game Log', 'game-log');
+    loadSheet('Career Stats', 'career-stats');
   </script>
 </body>
 </html>
